@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  testlink:
+    image: bitnami/testlink:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TESTLINK_DATABASE_TYPE=mysql
+      - TESTLINK_DATABASE_HOST=mysql
+      - TESTLINK_DATABASE_PORT_NUMBER=3306
+      - TESTLINK_DATABASE_NAME=mytestlinkdb
+      - TESTLINK_DATABASE_USER=myuser
+      - TESTLINK_DATABASE_PASSWORD=mypassword
+    volumes:
+      - testlink_data:/bitnami/testlink
+
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mytestlinkdb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  testlink_data:
+  mysql_data:
